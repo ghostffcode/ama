@@ -1,4 +1,5 @@
 {
   "solidity.packageDefaultDependenciesContractsDirectory": "",
-  "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules"
+  "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules",
+  "solidity.remappings": ["forge-std/=hardhat/lib/forge-std/src/"]
 }

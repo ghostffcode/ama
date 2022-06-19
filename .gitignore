@@ -39,6 +39,7 @@ hardhat/deployments
 hardhat/cache*
 **/data
 hardhat/mnemonic.txt
+hardhat/lib/*
 
 # lock files
 yarn.lock
