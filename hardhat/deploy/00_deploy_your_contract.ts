@@ -1,10 +1,12 @@
 // deploy/00_deploy_your_contract.js
 
-const { ethers } = require('hardhat')
+import { ethers } from 'hardhat'
+import {HardhatRuntimeEnvironment} from 'hardhat/types';
+import {DeployFunction} from 'hardhat-deploy/types';
 
 const localChainId = '31337'
 
-module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
+const contractDeploy: DeployFunction = async ({ getNamedAccounts, deployments, getChainId }: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments
   const { deployer } = await getNamedAccounts()
   const chainId = await getChainId()
@@ -14,6 +16,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     from: deployer,
     // args: [ "Hello", ethers.utils.parseEther("1.5") ],
     log: true,
+    autoMine: true,
     waitConfirmations: chainId === localChainId ? 1 : 5,
   })
 
@@ -56,16 +59,18 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
 
   // You can also Verify your contracts with Etherscan here...
   // You don't want to verify on localhost
-  try {
-    if (chainId !== localChainId) {
-      await run('verify:verify', {
-        address: YourContract.address,
-        contract: 'contracts/YourContract.sol:YourContract',
-        constructorArguments: [],
-      })
-    }
-  } catch (error) {
-    console.error(error)
-  }
+  // try {
+  //   if (chainId !== localChainId) {
+  //     await run('verify:verify', {
+  //       address: YourContract.address,
+  //       contract: 'contracts/YourContract.sol:YourContract',
+  //       constructorArguments: [],
+  //     })
+  //   }
+  // } catch (error) {
+  //   console.error(error)
+  // }
 }
-module.exports.tags = ['YourContract']
+
+export default contractDeploy;
+contractDeploy.tags = ['YourContract']
