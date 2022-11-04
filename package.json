@@ -1,0 +1,68 @@
+{
+  "name": "@ama/monorepo",
+  "version": "0.0.1",
+  "keywords": [
+    "ethereum",
+    "react",
+    "workspaces",
+    "yarn"
+  ],
+  "private": true,
+  "scripts": {
+    "react-app:build": "yarn workspace @ama/app build",
+    "react-app:start": "yarn workspace @ama/app start",
+    "react-app:dev": "yarn workspace @ama/app dev",
+    "react-app:test": "yarn workspace @ama/app test",
+    "react-app:lint": "yarn workspace @ama/app lint",
+    "build": "yarn workspace @ama/app build",
+    "chain": "yarn workspace @ama/hardhat chain",
+    "fork": "yarn workspace @ama/hardhat fork",
+    "node": "yarn workspace @ama/hardhat chain",
+    "test": "yarn workspace @ama/hardhat test",
+    "start": "yarn workspace @ama/app start",
+    "dev": "yarn workspace @ama/app dev",
+    "compile": "yarn workspace @ama/hardhat compile",
+    "deploy": "yarn workspace @ama/hardhat deploy",
+    "verify": "yarn workspace @ama/hardhat verify",
+    "watch": "yarn workspace @ama/hardhat watch",
+    "accounts": "yarn workspace @ama/hardhat accounts",
+    "balance": "yarn workspace @ama/hardhat balance",
+    "send": "yarn workspace @ama/hardhat send",
+    "ship": "yarn workspace @ama/app ship",
+    "surge": "yarn workspace @ama/app surge",
+    "s3": "yarn workspace @ama/app s3",
+    "generate": "yarn workspace @ama/hardhat generate",
+    "account": "yarn workspace @ama/hardhat account",
+    "mineContractAddress": "cd packages/hardhat && npx hardhat mineContractAddress",
+    "wallet": "cd packages/hardhat && npx hardhat wallet",
+    "fundedwallet": "cd packages/hardhat && npx hardhat fundedwallet",
+    "flatten": "cd packages/hardhat && npx hardhat flatten",
+    "clean": "cd packages/hardhat && npx hardhat clean",
+    "run-graph-node": "yarn workspace @ama/services run-graph-node",
+    "remove-graph-node": "yarn workspace @ama/services remove-graph-node",
+    "clean-graph-node": "yarn workspace @ama/services clean-graph-node",
+    "graph-prepare": "mustache packages/subgraph/config/config.json packages/subgraph/src/subgraph.template.yaml > packages/subgraph/subgraph.yaml",
+    "graph-codegen": "yarn workspace @ama/subgraph graph codegen",
+    "graph-build": "yarn workspace @ama/subgraph graph build",
+    "graph-create-local": "yarn workspace @ama/subgraph graph create --node http://localhost:8020/ ama/eth-kit",
+    "graph-remove-local": "yarn workspace @ama/subgraph graph remove --node http://localhost:8020/ ama/eth-kit",
+    "graph-deploy-local": "yarn workspace @ama/subgraph graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 ama/eth-kit",
+    "graph-ship-local": "yarn graph-prepare && yarn graph-codegen && yarn graph-deploy-local",
+    "deploy-and-graph": "yarn deploy && yarn graph-ship-local",
+    "theme": "yarn workspace @ama/app theme",
+    "watch-theme": "yarn workspace @ama/app watch"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@graphprotocol/graph-ts",
+      "**/@graphprotocol/graph-ts/**",
+      "**/hardhat",
+      "**/hardhat/**",
+      "**/hardhat-ts",
+      "**/hardhat-ts/**"
+    ]
+  }
+}

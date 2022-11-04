@@ -1,5 +1,5 @@
 {
-  "name": "hardhat",
+  "name": "@ama/hardhat",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -56,5 +56,8 @@
     "account": "hardhat account",
     "typechain": "hardhat typechain",
     "verify": "hardhat verify"
+  },
+  "resolutions": {
+    "hardhat/**/@ethereumjs/tx": "3.5.0"
   }
 }
