@@ -1,3 +1,5 @@
-# ETH-Next-Typescript-Kit
+# Ama
 
-A monster quick production build starter kit [ NextJS | Scaffold-ETH Hardhat + Subgraph]
+> My personal ETH dev started Kit
+
+A monster quick production build starter kit [ NextJS + Hardhat + Subgraph]
