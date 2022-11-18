@@ -4,13 +4,13 @@ import { useContracts } from '../providers/ContractsProvider/ContractProvider'
 
 const Home: NextPage = () => {
 
-  const { readContracts, writeContracts } = useContracts();
+  // const { readContracts, writeContracts } = useContracts();
 
   return (
     <>
       <ConnectButton />
 
-      <div className="w-96 border-2 rounded mx-auto mt-20 border-gray-500 bg-white p-3">Hello dFeed</div>
+      <div className="w-96 mx-auto mt-20 p-3">Hello DApp</div>
     </>
   )
 }
