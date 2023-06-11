@@ -2,13 +2,12 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
 import '@rainbow-me/rainbowkit/styles.css'
-import { WagmiConfig } from 'wagmi';
-import { wagmiClient, chains } from '../utils/wagmi';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { WagmiConfig } from 'wagmi'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import ContractsProvider from '../providers/ContractsProvider/ContractProvider'
+import wagmiConfig, { chains } from '@/utils/wagmi'
 
-const subgraphUri = 'http://localhost:8000/subgraphs/name/scaffold-eth/your-contract'
+const subgraphUri = 'http://localhost:8000/subgraphs/name/app/your-contract'
 
 const client = new ApolloClient({
   uri: subgraphUri,
@@ -17,11 +16,9 @@ const client = new ApolloClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (<ApolloProvider client={client}>
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
-        <ContractsProvider>
-          <Component {...pageProps} />
-        </ContractsProvider>
+        <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>
   </ApolloProvider>)

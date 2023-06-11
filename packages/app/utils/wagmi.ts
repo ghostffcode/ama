@@ -1,29 +1,23 @@
-import {
-  getDefaultWallets,
-} from '@rainbow-me/rainbowkit';
-import {
-  chain,
-  configureChains,
-  createClient,
-} from 'wagmi';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+import { getDefaultWallets } from '@rainbow-me/rainbowkit'
+import { configureChains, createConfig } from 'wagmi'
+import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { publicProvider } from 'wagmi/providers/public'
 
-export const { chains, provider } = configureChains(
-  [chain.hardhat, chain.mainnet],
-  [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
-    publicProvider()
-  ]
-);
+export const { chains, publicClient } = configureChains(
+  [mainnet, polygon, optimism, arbitrum],
+  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID as string }), publicProvider()]
+)
 
 const { connectors } = getDefaultWallets({
   appName: 'Ama DApp',
-  chains
-});
+  chains,
+})
 
-export const wagmiClient = createClient({
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider
+  publicClient,
 })
+
+export default wagmiConfig

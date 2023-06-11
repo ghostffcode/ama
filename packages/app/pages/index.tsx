@@ -1,11 +1,7 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import type { NextPage } from 'next'
-import { useContracts } from '../providers/ContractsProvider/ContractProvider'
 
 const Home: NextPage = () => {
-
-  // const { readContracts, writeContracts } = useContracts();
-
   return (
     <>
       <ConnectButton />
