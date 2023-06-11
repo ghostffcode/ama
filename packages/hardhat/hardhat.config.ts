@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { task } from 'hardhat/config';
+import { task } from 'hardhat/config'
 import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-waffle'
@@ -8,6 +8,7 @@ import '@nomiclabs/hardhat-waffle'
 import 'hardhat-deploy'
 import 'hardhat-gas-reporter'
 import 'hardhat-abi-exporter'
+import '@truffle/dashboard-hardhat-plugin'
 
 import { HardhatEthersHelpers } from '@nomiclabs/hardhat-ethers/types'
 import { TransactionRequest } from '@ethersproject/abstract-provider'
@@ -44,7 +45,10 @@ const DEBUG = false
 
 function mnemonic() {
   try {
-    return fs.readFileSync('./mnemonic.txt').toString().trim()
+    return fs
+      .readFileSync('./mnemonic.txt')
+      .toString()
+      .trim()
   } catch (e) {
     if (defaultNetwork !== 'localhost') {
       console.log(
@@ -57,12 +61,12 @@ function mnemonic() {
 
 type Networks = {
   [key: string]: {
-    url?: string,
-    gasPrice?: number,
+    url?: string
+    gasPrice?: number
     accounts?: {
-      mnemonic: string,
-    },
-  },
+      mnemonic: string
+    }
+  }
 }
 
 const config = {
@@ -78,10 +82,10 @@ const config = {
     coinmarketcap: process.env.COINMARKETCAP || undefined,
   },
 
-	typechain: {
-		outDir: 'typechain',
-		target: 'ethers-v5',
-	},
+  typechain: {
+    outDir: 'typechain',
+    target: 'ethers-v5',
+  },
 
   // if you want to deploy to a testnet, mainnet, or xdai, you will need to configure:
   // 1. An Infura key (or similar)
@@ -91,14 +95,7 @@ const config = {
   // Follow the directions, and uncomment the network you wish to deploy to.
 
   networks: {
-    localhost: {
-      url: 'http://localhost:8545',
-      /*      
-        notice no mnemonic here? it will just use account 0 of the hardhat node to deploy
-        (you can put in a mnemonic here to set the deployer locally)
-      
-      */
-    },
+    hardhat: {},
     rinkeby: {
       url: 'https://rinkeby.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad',
       accounts: {
@@ -376,6 +373,25 @@ task('fundedwallet', 'Create a wallet (pk) link and fund it with deployer?')
     }
   })
 
+task('fund', 'Fund an address from the deployer wallet')
+  .addPositionalParam('to', 'Address to fund')
+  .addOptionalParam('amount', 'Amount of ETH to send to address')
+  .setAction(async (taskArgs, { ethers }) => {
+    const amount = taskArgs.amount ? taskArgs.amount : '0.1'
+    const accounts = await ethers.provider.listAccounts()
+    const fromSigner = ethers.provider.getSigner(accounts[0])
+    const fromAddress = await fromSigner.getAddress()
+
+    const tx = {
+      to: taskArgs.to,
+      value: ethers.utils.parseEther(amount),
+    }
+
+    console.log('💵 Sending ' + amount + ' ETH from ' + fromAddress + ' to ' + taskArgs.to + ' using local node')
+
+    return send(fromSigner, tx)
+  })
+
 task('generate', 'Create a mnemonic for builder deploys', async (_, { ethers }) => {
   const bip39 = require('bip39')
   const { hdkey } = require('ethereumjs-wallet')
@@ -405,7 +421,10 @@ task('account', 'Get balance informations for the deployment account.', async (_
     const bip39 = require('bip39')
     const EthUtil = require('ethereumjs-util')
     const { hdkey } = require('ethereumjs-wallet')
-    const mnemonic = fs.readFileSync('./mnemonic.txt').toString().trim()
+    const mnemonic = fs
+      .readFileSync('./mnemonic.txt')
+      .toString()
+      .trim()
     if (DEBUG) console.log('mnemonic', mnemonic)
     const seed = await bip39.mnemonicToSeed(mnemonic)
     if (DEBUG) console.log('seed', seed)
@@ -422,11 +441,11 @@ task('account', 'Get balance informations for the deployment account.', async (_
     qrcode.generate(address)
     console.log('‍📬 Deployer Account is ' + address)
 
-    const networks: Networks = config.networks;
+    const networks: Networks = config.networks
 
     for (const n in networks) {
       try {
-        const url = networks[n].url;
+        const url = networks[n].url
         if (url) {
           const provider = new ethers.providers.JsonRpcProvider(url)
           const balance = await provider.getBalance(address)
@@ -476,10 +495,10 @@ task('balance', "Prints an account's balance")
 
 async function send(signer: Signer, txparams: TransactionRequest) {
   try {
-    const transactionHash = signer.sendTransaction(txparams);
+    const transactionHash = signer.sendTransaction(txparams)
     debug(`transactionHash: ${transactionHash}`)
 
-    return transactionHash;
+    return transactionHash
   } catch (error) {
     debug(`Error: ${error}`)
   }
@@ -492,7 +511,6 @@ task('send', 'Send ETH')
   .addOptionalParam('data', 'Data included in transaction')
   .addOptionalParam('gasPrice', 'Price you are willing to pay in gwei')
   .addOptionalParam('gasLimit', 'Limit of how much gas to spend')
-
   .setAction(async (taskArgs, { network, ethers }) => {
     const from = await addr(ethers, taskArgs.from)
     debug(`Normalized from address: ${from}`)
@@ -512,17 +530,17 @@ task('send', 'Send ETH')
       gasPrice: parseUnits(taskArgs.gasPrice ? taskArgs.gasPrice : '1.001', 'gwei').toHexString(),
       gasLimit: taskArgs.gasLimit ? taskArgs.gasLimit : 24000,
       chainId: network.config.chainId,
-      data: undefined
+      data: undefined,
     }
 
     if (taskArgs.data !== undefined) {
       txRequest.data = taskArgs.data
       debug(`Adding data to payload: ${txRequest.data}`)
     }
-    debug(formatUnits(txRequest.gasPrice, "gwei") + ' gwei')
+    debug(formatUnits(txRequest.gasPrice, 'gwei') + ' gwei')
     debug(JSON.stringify(txRequest, null, 2))
 
     return send(fromSigner, txRequest)
   })
 
-  export default config;
+export default config

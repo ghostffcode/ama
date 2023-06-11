@@ -1,12 +1,16 @@
 // deploy/00_deploy_your_contract.js
 
 import { ethers } from 'hardhat'
-import {HardhatRuntimeEnvironment} from 'hardhat/types';
-import {DeployFunction} from 'hardhat-deploy/types';
+import { HardhatRuntimeEnvironment } from 'hardhat/types'
+import { DeployFunction } from 'hardhat-deploy/types'
 
 const localChainId = '31337'
 
-const contractDeploy: DeployFunction = async ({ getNamedAccounts, deployments, getChainId }: HardhatRuntimeEnvironment) => {
+const contractDeploy: DeployFunction = async ({
+  getNamedAccounts,
+  deployments,
+  getChainId,
+}: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments
   const { deployer } = await getNamedAccounts()
   const chainId = await getChainId()
@@ -72,5 +76,5 @@ const contractDeploy: DeployFunction = async ({ getNamedAccounts, deployments, g
   // }
 }
 
-export default contractDeploy;
+export default contractDeploy
 contractDeploy.tags = ['YourContract']
