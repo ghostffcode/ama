@@ -16,6 +16,7 @@
     "app:lint": "pnpm --filter app run lint",
     "build": "pnpm --filter app run build",
     "chain": "pnpm --filter hardhat run chain",
+    "dashboard": "pnpm --filter hardhat run dashboard",
     "fork": "pnpm --filter hardhat run fork",
     "node": "pnpm --filter hardhat run chain",
     "test": "pnpm --filter hardhat run test",
