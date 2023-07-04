@@ -6,8 +6,9 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { WagmiConfig } from 'wagmi'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import wagmiConfig, { chains } from '@/utils/wagmi'
+import Nav from '@/components/nav'
 
-const subgraphUri = 'http://localhost:8000/subgraphs/name/app/your-contract'
+const subgraphUri = 'http://localhost:8000/subgraphs/name/ama/eth-kit'
 
 const client = new ApolloClient({
   uri: subgraphUri,
@@ -17,8 +18,10 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (<ApolloProvider client={client}>
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains}><main className='container mx-auto'>
+        <Nav />
         <Component {...pageProps} />
+      </main>
       </RainbowKitProvider>
     </WagmiConfig>
   </ApolloProvider>)
