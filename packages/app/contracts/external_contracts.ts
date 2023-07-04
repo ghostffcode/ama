@@ -219,10 +219,10 @@ const ERC20ABI = [
     name: 'Transfer',
     type: 'event',
   },
-]
+] as const
 
 // Mainnet DAI, Optimism and Arbitrium Rollup Contracts with local addresses
-module.exports = {
+const contracts = {
   1: {
     mainnet: {
       contracts: {
@@ -231,6 +231,8 @@ module.exports = {
           abi: ERC20ABI,
         },
       },
-    }
+    },
   },
-}
+} as const
+
+export default contracts
