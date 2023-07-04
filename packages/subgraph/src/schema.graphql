@@ -1,4 +1,4 @@
-type Purpose @entity {
+type ImplementationTemplate @entity {
   id: ID!
   sender: Sender!
   purpose: String!
